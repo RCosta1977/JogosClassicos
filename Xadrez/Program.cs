@@ -16,6 +16,8 @@ namespace Xadrez
                 board.placePiece(new Rook(board, Color.Black), new Position(1, 3));
                 board.placePiece(new King(board, Color.Black), new Position(0, 2));
 
+                board.placePiece(new King(board, Color.White), new Position(0, 5));
+
                 Screen.printBoard(board);
             }
             catch(BoardException e)
