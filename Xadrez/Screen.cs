@@ -1,5 +1,6 @@
 ﻿using System;
 using board;
+using Chess;
 
 namespace Xadrez
 {
@@ -24,7 +25,14 @@ namespace Xadrez
                 }
                 Console.WriteLine();
             }
-            Console.WriteLine("  a  b  c  d  e  f  g  h");
+            Console.WriteLine("  a b c d e f g h");
+        }
+        public static ChessPosition readChessPosition()
+        {
+            string s = Console.ReadLine();
+            char column = s[0];
+            int line = int.Parse(s[1]+"");
+            return new ChessPosition(column, line);
         }
         public static void printPiece(Piece piece)
         {
@@ -35,7 +43,7 @@ namespace Xadrez
             else
             {
                 ConsoleColor aux = Console.ForegroundColor;
-                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write(piece);
                 Console.ForegroundColor = aux;
             }

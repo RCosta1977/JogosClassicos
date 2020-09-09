@@ -10,15 +10,20 @@ namespace Xadrez
         {
             try
             {
-                Board board = new Board(8, 8);
+                ChessPlay play = new ChessPlay();
 
-                board.placePiece(new Rook(board, Color.Black), new Position(0, 0));
-                board.placePiece(new Rook(board, Color.Black), new Position(1, 3));
-                board.placePiece(new King(board, Color.Black), new Position(0, 2));
+                while (!play.finished)
+                {
+                    Console.Clear();
+                    Screen.printBoard(play.board);
 
-                board.placePiece(new King(board, Color.White), new Position(0, 5));
-
-                Screen.printBoard(board);
+                    Console.WriteLine();
+                    Console.Write("Origem: ");
+                    Position origin = Screen.readChessPosition().toPosition();
+                    Console.Write("Destino: ");
+                    Position destination = Screen.readChessPosition().toPosition();
+                    play.executeMove(origin, destination);
+                }
             }
             catch(BoardException e)
             {

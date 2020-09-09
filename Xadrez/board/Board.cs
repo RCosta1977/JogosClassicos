@@ -34,6 +34,17 @@
             pieces[position.line, position.column] = piece;
             piece.position = position;
         }
+        public Piece withdrawPiece(Position position)
+        {
+            if (piece(position) == null)
+            {
+                return null;
+            }
+            Piece aux = piece(position);
+            aux.position = null;
+            pieces[position.line, position.column] = null;
+            return aux;
+        }
         public bool validPosition(Position position)
         {
             if (position.line < 0 || position.line >= lines || position.column <0 || position.column >= columns)

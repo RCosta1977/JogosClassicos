@@ -14,5 +14,9 @@
             this.color = color;
             this.movementQty = 0;
         }
+        public void increaseMovementQty()
+        {
+            movementQty++;
+        }
     }
 }
