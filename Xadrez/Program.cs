@@ -12,17 +12,24 @@ namespace Xadrez
             {
                 ChessPlay play = new ChessPlay();
 
-                while (!play.finished)
+                while (!play.Finished)
                 {
                     Console.Clear();
-                    Screen.printBoard(play.board);
+                    Screen.PrintBoard(play.Board);
 
                     Console.WriteLine();
                     Console.Write("Origem: ");
-                    Position origin = Screen.readChessPosition().toPosition();
+                    Position origin = Screen.ReadChessPosition().ToPosition();
+
+                    bool[,] possiblePositions = play.Board.Piece(origin).PossibleMovements();
+
+                    Console.Clear();
+                    Screen.PrintBoard(play.Board, possiblePositions);
+
+                    Console.WriteLine();
                     Console.Write("Destino: ");
-                    Position destination = Screen.readChessPosition().toPosition();
-                    play.executeMove(origin, destination);
+                    Position destination = Screen.ReadChessPosition().ToPosition();
+                    play.ExecuteMovement(origin, destination);
                 }
             }
             catch(BoardException e)

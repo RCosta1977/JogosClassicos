@@ -2,60 +2,60 @@
 {
     class Board
     {
-        public int lines { get; set; }
-        public int columns { get; set; }
+        public int Lines { get; set; }
+        public int Columns { get; set; }
         private Piece[,] pieces;
 
         public Board(int lines, int columns)
         {
-            this.lines = lines;
-            this.columns = columns;
+            Lines = lines;
+            Columns = columns;
             pieces = new Piece[lines, columns];
         }
-        public Piece piece(int line, int column)
+        public Piece Piece(int line, int column)
         {
             return pieces[line, column];
         }
-        public Piece piece(Position position)
+        public Piece Piece(Position position)
         {
-            return pieces[position.line, position.column];
+            return pieces[position.Line, position.Column];
         }
-        public bool pieceExist(Position position)
+        public bool PieceExist(Position position)
         {
-            validatePosition(position);
-            return piece(position) != null;
+            ValidatePosition(position);
+            return Piece(position) != null;
         }
-        public void placePiece(Piece piece, Position position)
+        public void PlacePiece(Piece piece, Position position)
         {
-            if (pieceExist(position))
+            if (PieceExist(position))
             {
                 throw new BoardException("Já existe uma peça nessa posição!");
             }
-            pieces[position.line, position.column] = piece;
-            piece.position = position;
+            pieces[position.Line, position.Column] = piece;
+            piece.Position = position;
         }
-        public Piece withdrawPiece(Position position)
+        public Piece WithdrawPiece(Position position)
         {
-            if (piece(position) == null)
+            if (Piece(position) == null)
             {
                 return null;
             }
-            Piece aux = piece(position);
-            aux.position = null;
-            pieces[position.line, position.column] = null;
+            Piece aux = Piece(position);
+            aux.Position = null;
+            pieces[position.Line, position.Column] = null;
             return aux;
         }
-        public bool validPosition(Position position)
+        public bool ValidPosition(Position position)
         {
-            if (position.line < 0 || position.line >= lines || position.column <0 || position.column >= columns)
+            if (position.Line < 0 || position.Line >= Lines || position.Column <0 || position.Column >= Columns)
             {
                 return false;
             }
             return true;
         }
-        public void validatePosition(Position position)
+        public void ValidatePosition(Position position)
         {
-            if (!validPosition(position))
+            if (!ValidPosition(position))
             {
                 throw new BoardException("Posição inválida!");
             }
