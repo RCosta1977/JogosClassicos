@@ -18,6 +18,25 @@
         {
             MovementQty++;
         }
+        public bool AreTherePossibleMovements()
+        {
+            bool[,] matrix = PossibleMovements();
+            for (int i = 0; i < Board.Lines; i++)
+            {
+                for (int j = 0; j < Board.Columns; j++)
+                {
+                    if (matrix[i,j])
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        public bool CanMoveFor(Position position)
+        {
+            return PossibleMovements()[position.Line, position.Column];
+        }
         public abstract bool[,] PossibleMovements();
     }
 }

@@ -2,11 +2,11 @@
 {
     enum Color
     {
-        White,
-        Black,
-        Yellow,
-        Red,
-        Green,
-        Blue
+        Branca,
+        Preta,
+        Amarela,
+        Vermelha,
+        Verde,
+        Azul
     }
 }

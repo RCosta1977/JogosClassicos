@@ -10,26 +10,37 @@ namespace Xadrez
         {
             try
             {
-                ChessPlay play = new ChessPlay();
+                ChessPlay match = new ChessPlay();
 
-                while (!play.Finished)
+                while (!match.Finished)
                 {
-                    Console.Clear();
-                    Screen.PrintBoard(play.Board);
+                    try
+                    {
+                        Console.Clear();
+                        Screen.PrintBoard(match.Board);
+                        Console.WriteLine();
+                        Console.WriteLine("Turno: " + match.Turn);
+                        Console.WriteLine("Aguardando jogada: " + match.ActualPlayer);
+                        Console.WriteLine();
+                        Console.Write("Origem: ");
+                        Position origin = Screen.ReadChessPosition().ToPosition();
+                        match.ValidateOriginPosition(origin);
+                        bool[,] possiblePositions = match.Board.Piece(origin).PossibleMovements();
 
-                    Console.WriteLine();
-                    Console.Write("Origem: ");
-                    Position origin = Screen.ReadChessPosition().ToPosition();
+                        Console.Clear();
+                        Screen.PrintBoard(match.Board, possiblePositions);
 
-                    bool[,] possiblePositions = play.Board.Piece(origin).PossibleMovements();
-
-                    Console.Clear();
-                    Screen.PrintBoard(play.Board, possiblePositions);
-
-                    Console.WriteLine();
-                    Console.Write("Destino: ");
-                    Position destination = Screen.ReadChessPosition().ToPosition();
-                    play.ExecuteMovement(origin, destination);
+                        Console.WriteLine();
+                        Console.Write("Destino: ");
+                        Position destination = Screen.ReadChessPosition().ToPosition();
+                        match.ValidateTargetPosition(origin, destination);
+                        match.PerformMove(origin, destination);
+                    }
+                    catch(BoardException e)
+                    {
+                        Console.WriteLine(e.Message);
+                        Console.ReadLine();
+                    }
                 }
             }
             catch(BoardException e)
