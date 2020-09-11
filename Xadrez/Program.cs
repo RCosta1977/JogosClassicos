@@ -17,14 +17,13 @@ namespace Xadrez
                     try
                     {
                         Console.Clear();
-                        Screen.PrintBoard(match.Board);
-                        Console.WriteLine();
-                        Console.WriteLine("Turno: " + match.Turn);
-                        Console.WriteLine("Aguardando jogada: " + match.ActualPlayer);
+                        Screen.PrintMatch(match);
+                        
                         Console.WriteLine();
                         Console.Write("Origem: ");
                         Position origin = Screen.ReadChessPosition().ToPosition();
                         match.ValidateOriginPosition(origin);
+
                         bool[,] possiblePositions = match.Board.Piece(origin).PossibleMovements();
 
                         Console.Clear();

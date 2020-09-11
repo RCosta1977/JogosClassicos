@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using board;
 using Chess;
 
@@ -6,6 +7,37 @@ namespace Xadrez
 {
     class Screen
     {
+        public static void PrintMatch(ChessPlay match)
+        {
+            PrintBoard(match.Board);
+            Console.WriteLine();
+            PrintCapturedPieces(match);
+            Console.WriteLine();
+            Console.WriteLine("Turno: " + match.Turn);
+            Console.WriteLine("Aguardando jogada: " + match.ActualPlayer);
+        }
+        public static void PrintCapturedPieces(ChessPlay match)
+        {
+            Console.WriteLine("Peças capturadas:");
+            Console.Write("Brancas: ");
+            PrintSet(match.CapturedPieces(Color.Branca));
+            Console.WriteLine();
+            Console.Write("Pretas: ");
+            ConsoleColor aux = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Red;
+            PrintSet(match.CapturedPieces(Color.Preta));
+            Console.ForegroundColor = aux;
+            Console.WriteLine();
+        }
+        public static void PrintSet(HashSet<Piece> set)
+        {
+            Console.Write("[");
+            foreach (Piece piece in set)
+            {
+                Console.Write(piece + " ");
+            }
+            Console.Write("]");
+        }
         public static void PrintBoard(Board board)
         {
             for (int i = 0; i < board.Lines; i++)
@@ -29,7 +61,7 @@ namespace Xadrez
                 Console.Write(8 - i + " ");
                 for (int j = 0; j < board.Columns; j++)
                 {
-                    if (possiblePositions[i,j])
+                    if (possiblePositions[i, j])
                     {
                         Console.BackgroundColor = alteredBackground;
                     }
@@ -49,7 +81,7 @@ namespace Xadrez
         {
             string s = Console.ReadLine();
             char column = s[0];
-            int line = int.Parse(s[1]+"");
+            int line = int.Parse(s[1] + "");
             return new ChessPosition(column, line);
         }
         public static void printPiece(Piece piece)
