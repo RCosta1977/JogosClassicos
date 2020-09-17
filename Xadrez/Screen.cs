@@ -15,6 +15,10 @@ namespace Xadrez
             Console.WriteLine();
             Console.WriteLine("Turno: " + match.Turn);
             Console.WriteLine("Aguardando jogada: " + match.ActualPlayer);
+            if (match.Check)
+            {
+                Console.WriteLine("Xeque!");
+            }
         }
         public static void PrintCapturedPieces(ChessPlay match)
         {

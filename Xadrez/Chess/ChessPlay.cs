@@ -12,6 +12,7 @@ namespace Chess
         public bool Finished { get; private set; }
         private HashSet<Piece> pieces;
         private HashSet<Piece> capturedPieces;
+        public bool Check { get; private set; }
 
         public ChessPlay()
         {
@@ -19,11 +20,12 @@ namespace Chess
             Turn = 1;
             ActualPlayer = Color.Branca;
             Finished = false;
+            Check = false;
             pieces = new HashSet<Piece>();
             capturedPieces = new HashSet<Piece>();
             PlacePieces();
         }
-        public void ExecuteMove(Position origin, Position destination)
+        public Piece ExecuteMove(Position origin, Position destination)
         {
             Piece piece = Board.WithdrawPiece(origin);
             piece.IncreaseMovementQty();
@@ -33,10 +35,35 @@ namespace Chess
             {
                 capturedPieces.Add(capturedPiece);
             }
+            return capturedPiece;
+        }
+        public void UndoMove(Position origin, Position destination, Piece capturedPiece)
+        {
+            Piece piece = Board.WithdrawPiece(destination);
+            piece.DecreaseMovementQty();
+            if(capturedPiece != null)
+            {
+                Board.PlacePiece(capturedPiece, origin);
+                capturedPieces.Remove(capturedPiece);
+            }
+            Board.PlacePiece(piece, origin);
         }
         public void PerformMove(Position origin, Position destination)
         {
-            ExecuteMove(origin, destination);
+            Piece capturedPiece = ExecuteMove(origin, destination);
+            if (IsinCheck(ActualPlayer))
+            {
+                UndoMove(origin,destination,capturedPiece);
+                throw new BoardException("Você não pode se colocar em cheque!");
+            }
+            if (IsinCheck(Opponent(ActualPlayer)))
+            {
+                Check = true;
+            }
+            else
+            {
+                Check = false;
+            }
             Turn++;
             changePlayer();
         }
@@ -100,6 +127,45 @@ namespace Chess
             }
             aux.ExceptWith(CapturedPieces(color));
             return aux;
+        }
+        private Color Opponent (Color color)
+        {
+            if (color==Color.Branca)
+            {
+                return Color.Preta;
+            }
+            else
+            {
+                return Color.Branca;
+            }
+        }
+        private Piece King(Color color)
+        {
+            foreach (Piece piece in PiecesInPlay(color))
+            {
+                if (piece is King)
+                {
+                    return piece;
+                }
+            }
+            return null;
+        }
+        public bool IsinCheck(Color color)
+        {
+            Piece king = King(color);
+            if (king==null)
+            {
+                throw new BoardException($"Não há rei {color} no tabuleiro!");
+            }
+            foreach (Piece piece in PiecesInPlay(Opponent(color)))
+            {
+                bool[,] matrix = piece.PossibleMovements();
+                if (matrix[king.Position.Line,king.Position.Column])
+                {
+                    return true;
+                }
+            }
+            return false;
         }
         public void PlaceNewPiece(char column, int line, Piece piece)
         {

@@ -18,6 +18,10 @@
         {
             MovementQty++;
         }
+        public void DecreaseMovementQty()
+        {
+            MovementQty--;
+        }
         public bool AreTherePossibleMovements()
         {
             bool[,] matrix = PossibleMovements();
