@@ -41,6 +41,8 @@ namespace Xadrez
                         Console.ReadLine();
                     }
                 }
+                Console.Clear();
+                Screen.PrintMatch(match);
             }
             catch(BoardException e)
             {
