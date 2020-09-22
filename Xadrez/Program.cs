@@ -1,6 +1,6 @@
 ﻿using System;
-using board;
-using Chess;
+using tabuleiro;
+using xadrez;
 
 namespace Xadrez
 {
@@ -10,41 +10,42 @@ namespace Xadrez
         {
             try
             {
-                ChessPlay match = new ChessPlay();
+                PartidaDeXadrez partida = new PartidaDeXadrez();
 
-                while (!match.Finished)
+                while (!partida.terminada)
                 {
                     try
                     {
                         Console.Clear();
-                        Screen.PrintMatch(match);
-                        
+                        Tela.imprimirPartida(partida);
+
                         Console.WriteLine();
                         Console.Write("Origem: ");
-                        Position origin = Screen.ReadChessPosition().ToPosition();
-                        match.ValidateOriginPosition(origin);
+                        Posicao origem = Tela.lerPosicaoXadrez().toPosicao();
+                        partida.validarPosicaoDeOrigem(origem);
 
-                        bool[,] possiblePositions = match.Board.Piece(origin).PossibleMovements();
+                        bool[,] posicoesPossiveis = partida.tab.peca(origem).movimentosPossiveis();
 
                         Console.Clear();
-                        Screen.PrintBoard(match.Board, possiblePositions);
+                        Tela.imprimirTabuleiro(partida.tab, posicoesPossiveis);
 
                         Console.WriteLine();
                         Console.Write("Destino: ");
-                        Position destination = Screen.ReadChessPosition().ToPosition();
-                        match.ValidateTargetPosition(origin, destination);
-                        match.PerformMove(origin, destination);
+                        Posicao destino = Tela.lerPosicaoXadrez().toPosicao();
+                        partida.validarPosicaoDeDestino(origem, destino);
+
+                        partida.realizaJogada(origem, destino);
                     }
-                    catch(BoardException e)
+                    catch (TabuleiroException e)
                     {
                         Console.WriteLine(e.Message);
                         Console.ReadLine();
                     }
                 }
                 Console.Clear();
-                Screen.PrintMatch(match);
+                Tela.imprimirPartida(partida);
             }
-            catch(BoardException e)
+            catch (TabuleiroException e)
             {
                 Console.WriteLine(e.Message);
             }

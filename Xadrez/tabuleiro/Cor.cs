@@ -1,12 +1,13 @@
-﻿namespace board
+﻿namespace tabuleiro
 {
-    enum Color
+    enum Cor
     {
         Branca,
         Preta,
         Amarela,
+        Azul,
         Vermelha,
         Verde,
-        Azul
+        Laranja
     }
 }
