@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using tabuleiro;
+using xadrez;
+using Xadrez;
 
 namespace xadrez
 {
@@ -146,9 +148,23 @@ namespace xadrez
                 {
                     p = tab.retirarPeca(destino);
                     pecas.Remove(p);
+                    char escolha = Tela.escolherPeca();
+                    Peca novaPeca = escolha switch
+                    {
+                        't' => new Torre(tab, p.cor),
+                        'c' => new Cavalo(tab, p.cor),
+                        'b' => new Bispo(tab, p.cor),
+                        'd' => new Dama(tab, p.cor),
+                        _ => throw new TabuleiroException("Peça invalida!"),
+                    };
+                    tab.colocarPeca(novaPeca, destino);
+                    pecas.Add(novaPeca);
+
+                    /*
                     Peca dama = new Dama(tab, p.cor);
                     tab.colocarPeca(dama, destino);
                     pecas.Add(dama);
+                    */
                 }
             }
 

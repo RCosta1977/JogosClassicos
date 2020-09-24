@@ -118,5 +118,11 @@ namespace Xadrez
                 Console.Write(" ");
             }
         }
+        public static char escolherPeca()
+        {
+            Console.Write("Para qual peça desejas promover o peão? (t/c/b/d)");
+            char escolha = char.Parse(Console.ReadLine());
+            return escolha;
+        }
     }
 }
