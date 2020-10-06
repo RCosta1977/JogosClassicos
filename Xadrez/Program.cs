@@ -1,53 +1,104 @@
 ﻿using System;
 using tabuleiro;
 using xadrez;
+using damas;
 
-namespace Xadrez
+namespace JogosClassicos
 {
     class Program
     {
         static void Main(string[] args)
         {
-            try
+            Console.Write("Qual jogo gostaria de jogar? (x = Xadrez / d = Damas)");
+            char c = char.Parse(Console.ReadLine().ToLower());
+            if (c == 'x')
             {
-                PartidaDeXadrez partida = new PartidaDeXadrez();
 
-                while (!partida.terminada)
+                try
                 {
-                    try
+                    PartidaDeXadrez partida = new PartidaDeXadrez();
+
+                    while (!partida.terminada)
                     {
-                        Console.Clear();
-                        Tela.imprimirPartida(partida);
+                        try
+                        {
+                            Console.Clear();
+                            TelaXadrez.imprimirPartida(partida);
 
-                        Console.WriteLine();
-                        Console.Write("Origem: ");
-                        Posicao origem = Tela.lerPosicaoXadrez().toPosicao();
-                        partida.validarPosicaoDeOrigem(origem);
+                            Console.WriteLine();
+                            Console.Write("Origem: ");
+                            Posicao origem = TelaXadrez.lerPosicaoXadrez().toPosicao();
+                            partida.validarPosicaoDeOrigem(origem);
 
-                        bool[,] posicoesPossiveis = partida.tab.peca(origem).movimentosPossiveis();
+                            bool[,] posicoesPossiveis = partida.tab.peca(origem).movimentosPossiveis();
 
-                        Console.Clear();
-                        Tela.imprimirTabuleiro(partida.tab, posicoesPossiveis);
+                            Console.Clear();
+                            TelaXadrez.imprimirTabuleiro(partida.tab, posicoesPossiveis);
 
-                        Console.WriteLine();
-                        Console.Write("Destino: ");
-                        Posicao destino = Tela.lerPosicaoXadrez().toPosicao();
-                        partida.validarPosicaoDeDestino(origem, destino);
+                            Console.WriteLine();
+                            Console.Write("Destino: ");
+                            Posicao destino = TelaXadrez.lerPosicaoXadrez().toPosicao();
+                            partida.validarPosicaoDeDestino(origem, destino);
 
-                        partida.realizaJogada(origem, destino);
+                            partida.realizaJogada(origem, destino);
+                        }
+                        catch (TabuleiroException e)
+                        {
+                            Console.WriteLine(e.Message);
+                            Console.ReadLine();
+                        }
                     }
-                    catch (TabuleiroException e)
-                    {
-                        Console.WriteLine(e.Message);
-                        Console.ReadLine();
-                    }
+                    Console.Clear();
+                    TelaXadrez.imprimirPartida(partida);
                 }
-                Console.Clear();
-                Tela.imprimirPartida(partida);
+                catch (TabuleiroException e)
+                {
+                    Console.WriteLine(e.Message);
+                }
             }
-            catch (TabuleiroException e)
+            if (c=='d')
             {
-                Console.WriteLine(e.Message);
+                try
+                {
+                    PartidaDeDamas partida = new PartidaDeDamas();
+
+                    while (!partida.terminada)
+                    {
+                        try
+                        {
+                            Console.Clear();
+                            TelaDamas.imprimirPartida(partida);
+
+                            Console.WriteLine();
+                            Console.Write("Origem: ");
+                            Posicao origem = TelaDamas.lerPosicaoDamas().toPosicao();
+                            partida.validarPosicaoDeOrigem(origem);
+
+                            bool[,] posicoesPossiveis = partida.tab.peca(origem).movimentosPossiveis();
+
+                            Console.Clear();
+                            TelaDamas.imprimirTabuleiro(partida.tab, posicoesPossiveis);
+
+                            Console.WriteLine();
+                            Console.Write("Destino: ");
+                            Posicao destino = TelaDamas.lerPosicaoDamas().toPosicao();
+                            partida.validarPosicaoDeDestino(origem, destino);
+
+                            partida.realizaJogada(origem, destino);
+                        }
+                        catch (TabuleiroException e)
+                        {
+                            Console.WriteLine(e.Message);
+                            Console.ReadLine();
+                        }
+                    }
+                    Console.Clear();
+                    TelaDamas.imprimirPartida(partida);
+                }
+                catch (TabuleiroException e)
+                {
+                    Console.WriteLine(e.Message);
+                }
             }
         }
     }

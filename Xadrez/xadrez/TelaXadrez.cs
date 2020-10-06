@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using tabuleiro;
 using xadrez;
 
-namespace Xadrez
+namespace xadrez
 {
-    class Tela
+    class TelaXadrez
     {
         public static void imprimirPartida(PartidaDeXadrez partida)
         {

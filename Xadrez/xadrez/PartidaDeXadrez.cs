@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using tabuleiro;
-using xadrez;
-using Xadrez;
+using JogosClassicos;
 
 namespace xadrez
 {
@@ -28,6 +27,32 @@ namespace xadrez
             vulneravelEnPassant = null;
             colocarPecas();
         }
+
+        public void validarPosicaoDeOrigem(Posicao pos)
+        {
+            if (tab.peca(pos) == null)
+            {
+                throw new TabuleiroException("Não existe peça na posição de origem escolhida!");
+            }
+            if (jogadorAtual != tab.peca(pos).cor)
+            {
+                throw new TabuleiroException("A peça de origem escolhida não é sua!");
+            }
+            if (!tab.peca(pos).existeMovimentosPossiveis())
+
+            {
+                throw new TabuleiroException("Não há movimentos possíveis para a peça de origem escolhida!");
+            }
+
+        }
+        public void validarPosicaoDeDestino(Posicao origem, Posicao destino)
+        {
+            if (!tab.peca(origem).movimentoPossivel(destino))
+            {
+                throw new TabuleiroException("Posição de destino inválida!");
+            }
+        }
+        
         public Peca executaMovimento(Posicao origem, Posicao destino)
         {
             Peca p = tab.retirarPeca(origem);
@@ -79,6 +104,17 @@ namespace xadrez
             }
 
             return pecaCapturada;
+        }
+        public void mudaJogador()
+        {
+            if (jogadorAtual == Cor.Branca)
+            {
+                jogadorAtual = Cor.Preta;
+            }
+            else
+            {
+                jogadorAtual = Cor.Branca;
+            }
         }
         public void desfazMovimento(Posicao origem, Posicao destino, Peca pecaCapturada)
         {
@@ -148,7 +184,7 @@ namespace xadrez
                 {
                     p = tab.retirarPeca(destino);
                     pecas.Remove(p);
-                    char escolha = Tela.escolherPeca();
+                    char escolha = TelaXadrez.escolherPeca();
                     Peca novaPeca = escolha switch
                     {
                         't' => new Torre(tab, p.cor),
@@ -197,41 +233,9 @@ namespace xadrez
                 vulneravelEnPassant = null;
             }
         }
-        public void validarPosicaoDeOrigem(Posicao pos)
-        {
-            if (tab.peca(pos) == null)
-            {
-                throw new TabuleiroException("Não existe peça na posição de origem escolhida!");
-            }
-            if (jogadorAtual != tab.peca(pos).cor)
-            {
-                throw new TabuleiroException("A peça de origem escolhida não é sua!");
-            }
-            if (!tab.peca(pos).existeMovimentosPossiveis())
-
-            {
-                throw new TabuleiroException("Não há movimentos possíveis para a peça de origem escolhida!");
-            }
-
-        }
-        public void validarPosicaoDeDestino(Posicao origem, Posicao destino)
-        {
-            if (!tab.peca(origem).movimentoPossivel(destino))
-            {
-                throw new TabuleiroException("Posição de destino inválida!");
-            }
-        }
-        public void mudaJogador()
-        {
-            if (jogadorAtual == Cor.Branca)
-            {
-                jogadorAtual = Cor.Preta;
-            }
-            else
-            {
-                jogadorAtual = Cor.Branca;
-            }
-        }
+       
+        
+        
 
         public HashSet<Peca> pecasCapturadas(Cor cor)
         {
