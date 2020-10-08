@@ -1,34 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using tabuleiro;
-using xadrez;
+using System.Collections.Generic;
 
-namespace xadrez
+namespace JogosClassicos
 {
-    class TelaXadrez
+    abstract class Tela
     {
-        public static void imprimirPartida(PartidaDeXadrez partida)
-        {
-            imprimirTabuleiro(partida.tab);
-            Console.WriteLine();
-            imprimirPecasCapturadas(partida);
-            Console.WriteLine();
-            Console.WriteLine("Turno: " + partida.turno);
-            if (!partida.terminada)
-            {
-                Console.WriteLine("Aguardando jogada: " + partida.jogadorAtual);
-                if (partida.xeque)
-                {
-                    Console.WriteLine("XEQUE!");
-                }
-            }
-            else
-            {
-                Console.WriteLine("XEQUEMATE!");
-                Console.WriteLine("Vencedor: " + partida.jogadorAtual);
-            }
-        }
-        public static void imprimirPecasCapturadas(PartidaDeXadrez partida)
+        public static void imprimirPecasCapturadas(Partida partida)
         {
             Console.WriteLine("Peças capturadas:");
             Console.Write("Brancas: ");
@@ -49,6 +27,7 @@ namespace xadrez
                 Console.Write(x + " ");
             }
             Console.Write("]");
+
         }
         public static void imprimirTabuleiro(Tabuleiro tab)
         {
@@ -89,13 +68,6 @@ namespace xadrez
             Console.WriteLine("  a b c d e f g h");
             Console.BackgroundColor = fundoOriginal;
         }
-        public static PosicaoXadrez lerPosicaoXadrez()
-        {
-            string s = Console.ReadLine();
-            char coluna = s[0];
-            int linha = int.Parse(s[1] + "");
-            return new PosicaoXadrez(coluna, linha);
-        }
         public static void imprimirPeca(Peca peca)
         {
             if (peca == null)
@@ -117,12 +89,6 @@ namespace xadrez
                 }
                 Console.Write(" ");
             }
-        }
-        public static char escolherPeca()
-        {
-            Console.Write("Para qual peça desejas promover o peão? (t/c/b/d)");
-            char escolha = char.Parse(Console.ReadLine());
-            return escolha;
         }
     }
 }

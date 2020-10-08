@@ -109,5 +109,10 @@ namespace xadrez
 
             return mat;
         }
+
+        public override bool[,] movimentosPossiveisNaCaptura(char posicao)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

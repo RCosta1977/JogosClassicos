@@ -42,5 +42,7 @@
             return movimentosPossiveis()[pos.linha, pos.coluna];
         }
         public abstract bool[,] movimentosPossiveis();
+
+        public abstract bool[,] movimentosPossiveisNaCaptura(char posicao);
     }
 }
